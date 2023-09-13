@@ -11,7 +11,10 @@ class Direction(Enum):
     UP = 90
     LEFT = 180
     NONE = 360
+    SPEED = 2
 
+    def __int__(self):
+        return self.value
 
 class ScoreType(Enum):
     COOKIE = 10
@@ -287,13 +290,13 @@ class MovableObject(GameObject):
         desired_position = (0, 0)
         if in_direction == Direction.NONE: return False, desired_position
         if in_direction == Direction.UP:
-            desired_position = (self.x, self.y - 1)
+            desired_position = (self.x, self.y - int(Direction.SPEED))
         elif in_direction == Direction.DOWN:
-            desired_position = (self.x, self.y + 1)
+            desired_position = (self.x, self.y + int(Direction.SPEED))
         elif in_direction == Direction.LEFT:
-            desired_position = (self.x - 1, self.y)
+            desired_position = (self.x - int(Direction.SPEED), self.y)
         elif in_direction == Direction.RIGHT:
-            desired_position = (self.x + 1, self.y)
+            desired_position = (self.x + int(Direction.SPEED), self.y)
 
         return self.collides_with_wall(desired_position), desired_position
 
@@ -593,5 +596,5 @@ if __name__ == "__main__":
     pacman = Hero(game_renderer, unified_size, unified_size, unified_size)
     game_renderer.add_hero(pacman)
     game_renderer.set_current_mode(GhostBehaviour.CHASE)
-    game_renderer.tick(120)
+    game_renderer.tick(60)
     
